@@ -14,8 +14,9 @@ This is my workflow for editing my QMK keymaps.
 * Open the QMK shell and navigate to the home folder (~/qmk_firmware).
 * Checkout the branch: `git checkout object-Object/stable`
 * Add, stage, and commit files.
+* Compile: `qmk compile` or `qmk flash` or `make redox/rev1:object-Object:avrdude`
 
-## Updating
+## Updating QMK
 
 * `git checkout master`
 * `git pull`
