@@ -30,3 +30,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define RGBLIGHT_LAYERS
 #define RGBLIGHT_SLEEP
+
+#define TAPPING_TOGGLE 2
