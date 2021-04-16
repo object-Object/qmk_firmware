@@ -21,10 +21,8 @@
 // Shortcut to make keymap more readable
 #define SYM MO(_SYMBOL)
 #define FUNCS MO(_FUNCS)
-#define NAV MO(_NAV)
-#define TTSYM TT(_SYMBOL)
 #define TTFUNCS TT(_FUNCS)
-#define TTNAV TT(_NAV)
+#define NAV MO(_NAV)
 #define QWERTY TG(_QWERTY)
 
 #define ADJ_HOME LT(_ADJUST, KC_HOME)
@@ -42,7 +40,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_LSFT ,KC_Z    ,KC_X    ,KC_C    ,KC_D    ,KC_V    ,ADJ_PGUP,KC_PGDN ,        KC_END  ,ADJ_HOME,KC_K    ,KC_H    ,KC_COMM ,KC_DOT  ,KC_UP   ,KC_RSFT ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-     KC_LCTL ,KC_LGUI ,KC_LALT ,TTFUNCS ,     TTSYM   ,    KC_SPC  ,KC_BSPC ,        KC_RCTL ,KC_ENT  ,    TTSYM   ,     TTFUNCS ,KC_LEFT ,KC_DOWN ,KC_RGHT 
+     KC_LCTL ,KC_LGUI ,KC_LALT ,TTFUNCS ,     SYM     ,    KC_SPC  ,KC_BSPC ,        KC_RCTL ,KC_ENT  ,    SYM     ,     TTFUNCS ,KC_LEFT ,KC_DOWN ,KC_RGHT 
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
 
@@ -70,7 +68,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      _______ ,XXXXXXX ,KC_PERC ,KC_LCBR ,KC_RCBR ,KC_HASH ,KC_PGUP ,_______ ,        _______ ,KC_HOME ,KC_ASTR ,KC_SLSH ,KC_BSLS ,KC_AMPR ,XXXXXXX ,_______ ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-     _______ ,_______ ,_______ ,XXXXXXX ,     SYM     ,    _______ ,_______ ,        _______ ,_______ ,    SYM     ,     XXXXXXX ,XXXXXXX ,KC_RALT ,KC_RCTL 
+     _______ ,_______ ,_______ ,XXXXXXX ,     _______ ,    _______ ,_______ ,        _______ ,_______ ,    _______ ,     XXXXXXX ,XXXXXXX ,KC_RALT ,KC_RCTL 
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
 
@@ -94,7 +92,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      XXXXXXX ,XXXXXXX ,XXXXXXX ,KC_UP   ,XXXXXXX ,XXXXXXX ,XXXXXXX ,                          XXXXXXX ,KC_PSLS ,KC_P7   ,KC_P8   ,KC_P9   ,KC_PMNS ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     NAV     ,XXXXXXX ,KC_LEFT ,KC_DOWN ,KC_RGHT ,XXXXXXX ,XXXXXXX ,                          XXXXXXX ,KC_PAST ,KC_P4   ,KC_P5   ,KC_P6   ,KC_PPLS ,NAV     ,
+     _______ ,XXXXXXX ,KC_LEFT ,KC_DOWN ,KC_RGHT ,XXXXXXX ,XXXXXXX ,                          XXXXXXX ,KC_PAST ,KC_P4   ,KC_P5   ,KC_P6   ,KC_PPLS ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      _______ ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,KC_PGUP ,_______ ,        _______ ,KC_HOME ,XXXXXXX ,KC_P1   ,KC_P2   ,KC_P3   ,KC_PENT ,_______ ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
