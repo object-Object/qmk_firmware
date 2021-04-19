@@ -1,9 +1,5 @@
 #include QMK_KEYBOARD_H
 
-// Each layer gets a name for readability, which is then used in the keymap matrix below.
-// The underscores don't mean anything - you can have a layer called STUFF or any other name.
-// Layer names don't all need to be of the same length, obviously, and you can also skip them
-// entirely and just use numbers.
 #define _COLEMAK 0
 #define _QWERTY 1
 #define _SYMBOL 2
@@ -11,14 +7,17 @@
 #define _NAV 4
 #define _ADJUST 5
 
-// enum custom_keycodes {
-//     QWERTY = SAFE_RANGE,
-//     SYMBOL,
-//     FUNCS,
-//     ADJUST,
-// };
+// tap dance declarations
+enum {
+   TD_CTL_WIN,
+};
 
-// Shortcut to make keymap more readable
+// tap dance definitions
+qk_tap_dance_action_t tap_dance_actions[] = {
+   ACTION_TAP_DANCE_DOUBLE(KC_RCTL, KC_RGUI),
+};
+
+// shortcuts to make keymap more readable
 #define SYM MO(_SYMBOL)
 #define FUNCS MO(_FUNCS)
 #define TTFUNCS TT(_FUNCS)
@@ -27,6 +26,8 @@
 
 #define ADJ_HOME LT(_ADJUST, KC_HOME)
 #define ADJ_PGUP LT(_ADJUST, KC_PGUP)
+
+#define CTL_WIN TD(TD_CTL_WIN)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -40,7 +41,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_LSFT ,KC_Z    ,KC_X    ,KC_C    ,KC_D    ,KC_V    ,ADJ_PGUP,KC_PGDN ,        KC_END  ,ADJ_HOME,KC_K    ,KC_H    ,KC_COMM ,KC_DOT  ,KC_UP   ,KC_RSFT ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-     KC_LCTL ,KC_LGUI ,KC_LALT ,TTFUNCS ,     SYM     ,    KC_SPC  ,KC_BSPC ,        KC_RCTL ,KC_ENT  ,    SYM     ,     TTFUNCS ,KC_LEFT ,KC_DOWN ,KC_RGHT 
+     KC_LCTL ,KC_LGUI ,KC_LALT ,TTFUNCS ,     SYM     ,    KC_SPC  ,KC_BSPC ,        CTL_WIN ,KC_ENT  ,    SYM     ,     TTFUNCS ,KC_LEFT ,KC_DOWN ,KC_RGHT 
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
 
