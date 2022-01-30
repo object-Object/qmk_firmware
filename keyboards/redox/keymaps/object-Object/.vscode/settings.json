@@ -1,0 +1,17 @@
+{
+    "terminal.integrated.profiles.windows": {
+        "QMK MSYS": {
+            "path": "C:/QMK_MSYS/usr/bin/bash.exe",
+            "env": {
+                "MSYSTEM": "MINGW64",
+                "CHERE_INVOKING": "1"
+            },
+            "args": [
+                "--login"
+            ],
+            "overrideName": true,
+        }
+    },
+    "terminal.integrated.defaultProfile.windows": "QMK MSYS",
+    "editor.formatOnSave": false
+}
