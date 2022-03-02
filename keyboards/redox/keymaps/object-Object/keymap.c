@@ -61,6 +61,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 #define QWERTY TG(_QWERTY)
 
 #define ADJ_INS LT(_ADJUST, KC_INS)
+#define COMPOSE KC_F21 // this does fit in the keymap but i wanted to make it more clear why it's there
 
 #define LCTL_GUI TD(TD_LCTL_LGUI)
 #define RCTL_GUI TD(TD_RCTL_RGUI)
@@ -75,7 +76,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      NAV     ,KC_A    ,KC_R    ,KC_S    ,KC_T    ,KC_G    ,KC_LT   ,                          KC_GT   ,KC_M    ,KC_N    ,KC_E    ,KC_I    ,KC_O    ,NAV     ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_LSFT ,KC_Z    ,KC_X    ,KC_C    ,KC_D    ,KC_V    ,LCTL_GUI,KC_LALT ,        KC_RALT ,RCTL_GUI,KC_K    ,KC_H    ,KC_COMM ,KC_DOT  ,KC_UP   ,KC_RSFT ,
+     KC_LSFT ,KC_Z    ,KC_X    ,KC_C    ,KC_D    ,KC_V    ,LCTL_GUI,KC_LALT ,        KC_RALT ,RCTL_GUI,KC_K    ,KC_H    ,KC_COMM ,KC_DOT  ,KC_UP   ,COMPOSE ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
      KC_LCTL ,KC_LGUI ,KC_LALT ,FUNCS   ,     SYM     ,    KC_SPC  ,KC_BSPC ,        KC_RSFT ,KC_ENT  ,    SYM     ,     FUNCS   ,KC_LEFT ,KC_DOWN ,KC_RGHT 
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
