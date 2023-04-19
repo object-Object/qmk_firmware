@@ -211,8 +211,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   )
 };
 
+// #0080FF
+#define _HSV_BASE_BLUE 149, 255, 255
+
 const rgblight_segment_t PROGMEM rgb_COLEMAK[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 14, HSV_CYAN} // start at led 0, set 14 leds to cyan
+    {0, 14, _HSV_BASE_BLUE} // start at led 0, set 14 leds to main keyboard colour
 );
 
 const rgblight_segment_t PROGMEM rgb_QWERTY[] = RGBLIGHT_LAYER_SEGMENTS(
