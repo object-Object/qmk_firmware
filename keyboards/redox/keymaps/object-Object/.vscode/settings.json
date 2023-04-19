@@ -6,12 +6,11 @@
                 "MSYSTEM": "MINGW64",
                 "CHERE_INVOKING": "1"
             },
-            "args": [
-                "--login"
-            ],
-            "overrideName": true,
+            "args": ["--login"],
+            "overrideName": true
         }
     },
     "terminal.integrated.defaultProfile.windows": "QMK MSYS",
-    "editor.formatOnSave": false
+    "editor.formatOnSave": false,
+    "C_Cpp.errorSquiggles": "disabled" // because i can't get it to actually work or include anything
 }
