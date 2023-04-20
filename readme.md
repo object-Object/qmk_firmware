@@ -1,3 +1,11 @@
+# object-Object/qmk_firmware
+
+This repo contains my fork of the QMK firmware, which I use for my build of the [Redox rev1.0](https://github.com/mattdibi/redox-keyboard) keyboard.
+
+My keymap is located in the following file: [keyboards/redox/keymaps/object-Object/keymap.c](https://github.com/object-Object/qmk_firmware/blob/object-Object/stable/keyboards/redox/keymaps/object-Object/keymap.c)
+
+Original README is reproduced below.
+
 # Quantum Mechanical Keyboard Firmware
 
 [![Current Version](https://img.shields.io/github/tag/qmk/qmk_firmware.svg)](https://github.com/qmk/qmk_firmware/tags)
