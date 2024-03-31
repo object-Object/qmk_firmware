@@ -12,98 +12,102 @@ bool is_recording_led_on = false;
 static uint16_t recording_timer;
 
 enum custom_keycodes {
-   PLUS_EQL = SAFE_RANGE,
-   MINS_EQL,
-   ARROW,
-   FATARROW,
-   RERUN,
-   WAIT250,
-   WAIT500,
-   WAIT1000,
+    PLUS_EQL = SAFE_RANGE,
+    MINS_EQL,
+    ARROW,
+    FATARROW,
+    RERUN,
+    WAIT250,
+    WAIT500,
+    WAIT1000,
 };
 
 enum {
-   TD_LCTL_LGUI,
-   TD_RCTL_RGUI,
+    TD_LCTL_LGUI,
+    TD_RCTL_RGUI,
 };
 
 qk_tap_dance_action_t tap_dance_actions[] = {
-   [TD_LCTL_LGUI] = ACTION_TAP_DANCE_DOUBLE(KC_LCTL, KC_LGUI),
-   [TD_RCTL_RGUI] = ACTION_TAP_DANCE_DOUBLE(KC_RCTL, KC_RGUI),
+    [TD_LCTL_LGUI] = ACTION_TAP_DANCE_DOUBLE(KC_LCTL, KC_LGUI),
+    [TD_RCTL_RGUI] = ACTION_TAP_DANCE_DOUBLE(KC_RCTL, KC_RGUI),
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-   switch (keycode) {
-      case PLUS_EQL:
-         if (record->event.pressed) {
-            SEND_STRING("+=");
-         }
-         break;
-      
-      case MINS_EQL:
-         if (record->event.pressed) {
-            SEND_STRING("-=");
-         }
-         break;
-      
-      case ARROW:
-         if (record->event.pressed) {
-            SEND_STRING("->");
-         }
-         break;
-      
-      case FATARROW:
-         if (record->event.pressed) {
-            SEND_STRING("=>");
-         }
-         break;
-      
-      case RERUN:
-         if (record->event.pressed) {
-            SEND_STRING(SS_TAP(X_UP) SS_DELAY(100) SS_TAP(X_ENTER));
-         }
-         break;
-      
-      case WAIT250:
-         if (record->event.pressed) {
-            _delay_ms(250);
-         }
-         break;
-      
-      case WAIT500:
-         if (record->event.pressed) {
-            _delay_ms(500);
-         }
-         break;
-      
-      case WAIT1000:
-         if (record->event.pressed) {
-            _delay_ms(1000);
-         }
-         break;
-   }
-   return true;
+    switch (keycode) {
+        case PLUS_EQL:
+            if (record->event.pressed) {
+                SEND_STRING("+=");
+            }
+            break;
+        
+        case MINS_EQL:
+            if (record->event.pressed) {
+                SEND_STRING("-=");
+            }
+            break;
+        
+        case ARROW:
+            if (record->event.pressed) {
+                SEND_STRING("->");
+            }
+            break;
+        
+        case FATARROW:
+            if (record->event.pressed) {
+                SEND_STRING("=>");
+            }
+            break;
+        
+        case RERUN:
+            if (record->event.pressed) {
+                SEND_STRING(SS_TAP(X_UP) SS_DELAY(100) SS_TAP(X_ENTER));
+            }
+            break;
+        
+        case WAIT250:
+            if (record->event.pressed) {
+                _delay_ms(250);
+            }
+            break;
+        
+        case WAIT500:
+            if (record->event.pressed) {
+                _delay_ms(500);
+            }
+            break;
+        
+        case WAIT1000:
+            if (record->event.pressed) {
+                _delay_ms(1000);
+            }
+            break;
+     
+        // case SH_OS:
+        //     rgblight_set_layer_state(9, is_swap_hands_on());
+        //     break;
+    }
+    return true;
 }
 
 void matrix_scan_user(void) {
-   if (is_recording && timer_elapsed(recording_timer) > 250) {
-      is_recording_led_on = !is_recording_led_on;
-      recording_timer = timer_read();
-      rgblight_set_layer_state(8, is_recording_led_on);
-   }
+    if (is_recording && timer_elapsed(recording_timer) > 250) {
+        is_recording_led_on = !is_recording_led_on;
+        recording_timer = timer_read();
+        rgblight_set_layer_state(8, is_recording_led_on);
+    }
 }
 
 void dynamic_macro_record_start_user(void) {
-   is_recording = true;
-   is_recording_led_on = true;
-   rgblight_set_layer_state(8, is_recording_led_on);
-   recording_timer = timer_read();
+    is_recording = true;
+    is_recording_led_on = true;
+    rgblight_set_layer_state(8, is_recording_led_on);
+    recording_timer = timer_read();
 }
 
 void dynamic_macro_record_end_user(int8_t direction) {
-   is_recording = false;
-   is_recording_led_on = false;
-   rgblight_set_layer_state(8, is_recording_led_on);
+    is_recording = false;
+    is_recording_led_on = false;
+    rgblight_set_layer_state(8, is_recording_led_on);
 }
 
 // shortcuts to make keymap more readable
@@ -198,7 +202,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_ADJUST] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
-     QWERTY  ,RERUN   ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,                                            XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,
+     QWERTY  ,RERUN   ,XXXXXXX ,XXXXXXX ,XXXXXXX ,SH_OS   ,                                            XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      XXXXXXX ,RESET   ,RGB_TOG ,RGB_VAD ,RGB_VAI ,XXXXXXX ,_______ ,                          XXXXXXX ,DM_RSTP ,DM_REC1 ,DM_REC2 ,XXXXXXX ,RESET   ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
@@ -212,55 +216,73 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 // #0080FF
-#define _HSV_BASE_BLUE 149, 255, 255
+#define HSV_BASE_BLUE 149, 255, 255
+#define HSV_VIOLET    180, 255, 255
+#define HSV_ROSE      222, 255, 255
 
+// *******  *******
 const rgblight_segment_t PROGMEM rgb_COLEMAK[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 14, _HSV_BASE_BLUE} // start at led 0, set 14 leds to main keyboard colour
+    {0, 14, HSV_BASE_BLUE} // start at led 0, set 14 leds to main keyboard colour
 );
 
+// *******  *******
 const rgblight_segment_t PROGMEM rgb_QWERTY[] = RGBLIGHT_LAYER_SEGMENTS(
     {0, 14, HSV_RED}
 );
 
+// *******  *******
 const rgblight_segment_t PROGMEM rgb_SYMBOL[] = RGBLIGHT_LAYER_SEGMENTS(
     {0, 14, HSV_GREEN}
 );
 
+// *******  *******
 const rgblight_segment_t PROGMEM rgb_FUNCS[] = RGBLIGHT_LAYER_SEGMENTS(
     {0, 14, HSV_GOLD}
 );
 
+// *******  *******
 const rgblight_segment_t PROGMEM rgb_NAV[] = RGBLIGHT_LAYER_SEGMENTS(
     {0, 14, HSV_PURPLE}
 );
 
+// *******  *******
 const rgblight_segment_t PROGMEM rgb_ADJUST[] = RGBLIGHT_LAYER_SEGMENTS(
     {0, 14, HSV_PINK}
 );
 
+// -----**  **-----
 const rgblight_segment_t PROGMEM rgb_caps_lock[] = RGBLIGHT_LAYER_SEGMENTS(
     {5, 4, HSV_MAGENTA}
 );
 
+// **-----  -----**
 const rgblight_segment_t PROGMEM rgb_num_lock[] = RGBLIGHT_LAYER_SEGMENTS(
     {0, 2, HSV_MAGENTA},
     {12, 2, HSV_MAGENTA}
 );
 
+// ---****  ****---
 const rgblight_segment_t PROGMEM rgb_recording[] = RGBLIGHT_LAYER_SEGMENTS(
     {3, 8, HSV_PINK}
 );
 
+// --***--  --***--
+const rgblight_segment_t PROGMEM rgb_swap_hands[] = RGBLIGHT_LAYER_SEGMENTS(
+    {2, 3, HSV_ROSE},
+    {9, 3, HSV_VIOLET}
+);
+
 const rgblight_segment_t* const PROGMEM rgb_layers[] = RGBLIGHT_LAYERS_LIST( // layers overlap, later take precedence, max 12 layers (change in rules.mk)
-    rgb_COLEMAK,
-    rgb_QWERTY,
-    rgb_SYMBOL,
-    rgb_FUNCS,
-    rgb_NAV,
-    rgb_ADJUST,
-    rgb_caps_lock,
-    rgb_num_lock,
-    rgb_recording
+    rgb_COLEMAK,    // 0
+    rgb_QWERTY,     // 1
+    rgb_SYMBOL,     // 2
+    rgb_FUNCS,      // 3
+    rgb_NAV,        // 4
+    rgb_ADJUST,     // 5
+    rgb_caps_lock,  // 6
+    rgb_num_lock,   // 7
+    rgb_recording,  // 8
+    rgb_swap_hands  // 9
 );
 
 void keyboard_post_init_user(void) {
@@ -286,3 +308,39 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     }
     return state;
 }
+
+/*
+#define LAYOUT( \
+  k00, k01, k02, k03, k04, k05,                          k08, k09, k10, k11, k12, k13, \
+  k14, k15, k16, k17, k18, k19, k06,                k07, k22, k23, k24, k25, k26, k27, \
+  k28, k29, k30, k31, k32, k33, k20,                k21, k36, k37, k38, k39, k40, k41, \
+  k42, k43, k44, k45, k46, k47, k34, k48,      k49, k35, k50, k51, k52, k53, k54, k55, \
+  k56, k57, k58, k59,    k60,   k61, k62,      k63, k64,   k65,    k66, k67, k68, k69  \
+) \
+row/col 0    1    2    3    4    5    6
+0    { k00, k01, k02, k03, k04, k05, k06 }, \
+1    { k14, k15, k16, k17, k18, k19, k20 }, \
+2    { k28, k29, k30, k31, k32, k33, k34 }, \
+3    { k42, k43, k44, k45, k46, k47, k48 }, \
+4    { k56, k57, k58, k59, k60, k61, k62 }, \
+
+5    { k13, k12, k11, k10, k09, k08, k07 }, \
+6    { k27, k26, k25, k24, k23, k22, k21 }, \
+7    { k41, k40, k39, k38, k37, k36, k35 }, \
+8    { k55, k54, k53, k52, k51, k50, k49 }, \
+9    { k69, k68, k67, k66, k65, k64, k63 }  \
+}
+*/
+const keypos_t PROGMEM hand_swap_config[MATRIX_ROWS][MATRIX_COLS] = {
+    {{0, 5}, {1, 5}, {2, 5}, {3, 5}, {4, 5}, {5, 5}, {6, 5}},
+    {{0, 6}, {1, 6}, {2, 6}, {3, 6}, {4, 6}, {5, 6}, {6, 6}},
+    {{0, 7}, {1, 7}, {2, 7}, {3, 7}, {4, 7}, {5, 7}, {6, 7}},
+    {{0, 8}, {1, 8}, {2, 8}, {3, 8}, {4, 8}, {5, 8}, {6, 8}},
+    {{0, 9}, {1, 9}, {2, 9}, {3, 9}, {4, 9}, {5, 9}, {6, 9}},
+
+    {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}},
+    {{0, 1}, {1, 1}, {2, 1}, {3, 1}, {4, 1}, {5, 1}, {6, 1}},
+    {{0, 2}, {1, 2}, {2, 2}, {3, 2}, {4, 2}, {5, 2}, {6, 2}},
+    {{0, 3}, {1, 3}, {2, 3}, {3, 3}, {4, 3}, {5, 3}, {6, 3}},
+    {{0, 4}, {1, 4}, {2, 4}, {3, 4}, {4, 4}, {5, 4}, {6, 4}},
+};
