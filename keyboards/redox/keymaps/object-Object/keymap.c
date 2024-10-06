@@ -1,11 +1,19 @@
 #include QMK_KEYBOARD_H
 
-#define _COLEMAK 0
-#define _QWERTY 1
-#define _SYMBOL 2
-#define _FUNCS 3
-#define _NAV 4
-#define _ADJUST 5
+enum {
+    // layer ids
+    _COLEMAK,
+    _QWERTY,
+    _SYMBOL,
+    _FUNCS,
+    _NAV,
+    _ADJUST,
+    _NUM_LAYERS, // scuffed
+    // rgb indicators
+    _CAPS_LOCK = _NUM_LAYERS,
+    _NUM_LOCK,
+    _RECORDING,
+};
 
 bool is_recording = false;
 bool is_recording_led_on = false;
@@ -98,21 +106,21 @@ void matrix_scan_user(void) {
     if (is_recording && timer_elapsed(recording_timer) > 250) {
         is_recording_led_on = !is_recording_led_on;
         recording_timer = timer_read();
-        rgblight_set_layer_state(8, is_recording_led_on);
+        rgblight_set_layer_state(_RECORDING, is_recording_led_on);
     }
 }
 
 void dynamic_macro_record_start_user(int8_t direction) {
     is_recording = true;
     is_recording_led_on = true;
-    rgblight_set_layer_state(8, is_recording_led_on);
+    rgblight_set_layer_state(_RECORDING, is_recording_led_on);
     recording_timer = timer_read();
 }
 
 void dynamic_macro_record_end_user(int8_t direction) {
     is_recording = false;
     is_recording_led_on = false;
-    rgblight_set_layer_state(8, is_recording_led_on);
+    rgblight_set_layer_state(_RECORDING, is_recording_led_on);
 }
 
 // shortcuts to make keymap more readable
@@ -281,37 +289,37 @@ const rgblight_segment_t PROGMEM rgb_recording[] = RGBLIGHT_LAYER_SEGMENTS(
 // );
 
 const rgblight_segment_t* const PROGMEM rgb_layers[] = RGBLIGHT_LAYERS_LIST( // layers overlap, later take precedence, max 12 layers (change in rules.mk)
-    rgb_COLEMAK,    // 0
-    rgb_QWERTY,     // 1
-    rgb_SYMBOL,     // 2
-    rgb_FUNCS,      // 3
-    rgb_NAV,        // 4
-    rgb_ADJUST,     // 5
-    rgb_caps_lock,  // 6
-    rgb_num_lock,   // 7
-    rgb_recording  // 8
-    // rgb_swap_hands  // 9
+    rgb_COLEMAK,
+    rgb_QWERTY,
+    rgb_SYMBOL,
+    rgb_FUNCS,
+    rgb_NAV,
+    rgb_ADJUST,
+    rgb_caps_lock,
+    rgb_num_lock,
+    rgb_recording
+    // rgb_swap_hands
 );
 
 void keyboard_post_init_user(void) {
     // Enable the LED layers
     rgblight_layers = rgb_layers;
-    rgblight_set_layer_state(0, true);
+    rgblight_set_layer_state(_COLEMAK, true);
 }
 
 bool led_update_user(led_t led_state) {
-    rgblight_set_layer_state(6, led_state.caps_lock);
-    rgblight_set_layer_state(7, !led_state.num_lock);
+    rgblight_set_layer_state(_CAPS_LOCK, led_state.caps_lock);
+    rgblight_set_layer_state(_NUM_LOCK, !led_state.num_lock);
     return true;
 }
 
 layer_state_t default_layer_state_set_user(layer_state_t state) {
-    rgblight_set_layer_state(0, layer_state_cmp(state, _COLEMAK));
+    rgblight_set_layer_state(_COLEMAK, layer_state_cmp(state, _COLEMAK));
     return state;
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
-    for (int i=0; i<=_ADJUST; i++) {
+    for (int i = 0; i < _NUM_LAYERS; i++) {
         rgblight_set_layer_state(i, layer_state_cmp(state, i));
     }
     return state;
