@@ -7,14 +7,18 @@ enum {
     _SYMBOL,
     _FUNCS,
     _NAV,
+#if ENABLE_LUCA
     _LUCA_QWERTY, // this is below adjust so the adjust leds work properly
+#endif
     _ADJUST,
 
     _NUM_LAYERS_WITH_RGB, // scuffed
 
     // layer ids that don't have rgb layers
+#if ENABLE_LUCA
     _LUCA_SYMBOL = _NUM_LAYERS_WITH_RGB,
     _LUCA_MEDIA,
+#endif
 
     // higher rgb layers (for indicators)
     _CAPS_LOCK = _NUM_LAYERS_WITH_RGB,
@@ -138,9 +142,13 @@ void dynamic_macro_record_end_user(int8_t direction) {
 #define QWERTY TG(_QWERTY)
 #define ADJUST MO(_ADJUST)
 
+#if ENABLE_LUCA
 #define L_QWERTY TG(_LUCA_QWERTY)
 #define L_SYMBOL MO(_LUCA_SYMBOL)
 #define L_MEDIA MO(_LUCA_MEDIA)
+#else
+#define L_QWERTY XXXXXXX
+#endif
 
 #define ADJ_INS LT(_ADJUST, KC_INS)
 #define COMPOSE KC_F21 // this does fit in the keymap but i wanted to make it more clear why it's there
@@ -227,7 +235,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_NAV] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
-     KC_CAPS ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,                                            XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,KC_NUM  ,
+     KC_CAPS ,KC_6    ,KC_7    ,KC_8    ,KC_9    ,KC_0    ,                                            KC_1    ,KC_2    ,KC_3    ,KC_4    ,KC_5    ,KC_NUM  ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      XXXXXXX ,KC_PGUP ,LINEUP  ,KC_UP   ,LINEDOWN,KC_HOME ,XXXXXXX ,                          _______ ,KC_PSLS ,KC_P7   ,KC_P8   ,KC_P9   ,KC_PMNS ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
@@ -253,6 +261,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
 
+#if ENABLE_LUCA
   [_LUCA_QWERTY] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
      KC_GRV  ,KC_1    ,KC_2    ,KC_3    ,KC_4    ,KC_5    ,                                            KC_6    ,KC_7    ,KC_8    ,KC_9    ,KC_0    ,KC_BSPC ,
@@ -294,12 +303,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      _______ ,_______ ,_______ ,_______ ,     _______ ,    _______ ,_______ ,        _______ ,_______ ,    _______ ,     _______ ,_______ ,_______ ,_______
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
+#endif // ENABLE_LUCA
 };
 
 // #0080FF
 #define HSV_BASE_BLUE 149, 255, 255
 #define HSV_VIOLET 180, 255, 255
+#if ENABLE_LUCA
 #define HSV_LUCA 243, 110, 242
+#endif
 
 // *******  *******
 const rgblight_segment_t PROGMEM rgb_COLEMAK[] = RGBLIGHT_LAYER_SEGMENTS(
@@ -326,10 +338,12 @@ const rgblight_segment_t PROGMEM rgb_NAV[] = RGBLIGHT_LAYER_SEGMENTS(
     {0, 14, HSV_PURPLE}
 );
 
+#if ENABLE_LUCA
 // *******  *******
 const rgblight_segment_t PROGMEM rgb_LUCA_QWERTY[] = RGBLIGHT_LAYER_SEGMENTS(
     {0, 14, HSV_LUCA}
 );
+#endif
 
 // *******  *******
 const rgblight_segment_t PROGMEM rgb_ADJUST[] = RGBLIGHT_LAYER_SEGMENTS(
@@ -369,7 +383,9 @@ const rgblight_segment_t* const PROGMEM rgb_layers[] = RGBLIGHT_LAYERS_LIST( // 
     rgb_SYMBOL,
     rgb_FUNCS,
     rgb_NAV,
+#if ENABLE_LUCA
     rgb_LUCA_QWERTY,
+#endif
     rgb_ADJUST,
 
     // modifiers
