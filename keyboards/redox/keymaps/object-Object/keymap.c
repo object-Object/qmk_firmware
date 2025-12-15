@@ -3,6 +3,7 @@
 enum {
     // layer ids
     _COLEMAK,
+    _MACOS,
     _QWERTY,
     _SYMBOL,
     _FUNCS,
@@ -44,11 +45,17 @@ enum custom_keycodes {
 enum {
     TD_LCTL_LGUI,
     TD_RCTL_RGUI,
+
+    TD_LGUI_LCTL,
+    TD_RGUI_RCTL,
 };
 
 tap_dance_action_t tap_dance_actions[] = {
     [TD_LCTL_LGUI] = ACTION_TAP_DANCE_DOUBLE(KC_LCTL, KC_LGUI),
     [TD_RCTL_RGUI] = ACTION_TAP_DANCE_DOUBLE(KC_RCTL, KC_RGUI),
+
+    [TD_LGUI_LCTL] = ACTION_TAP_DANCE_DOUBLE(KC_LGUI, KC_LCTL),
+    [TD_RGUI_RCTL] = ACTION_TAP_DANCE_DOUBLE(KC_RGUI, KC_RCTL),
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -141,6 +148,7 @@ void dynamic_macro_record_end_user(int8_t direction) {
 #define NAV MO(_NAV)
 #define QWERTY TG(_QWERTY)
 #define ADJUST MO(_ADJUST)
+#define MACOS TG(_MACOS)
 
 #if ENABLE_LUCA
 #define L_QWERTY TG(_LUCA_QWERTY)
@@ -156,24 +164,29 @@ void dynamic_macro_record_end_user(int8_t direction) {
 #define LCTL_GUI TD(TD_LCTL_LGUI)
 #define RCTL_GUI TD(TD_RCTL_RGUI)
 
+#define LGUI_CTL TD(TD_LGUI_LCTL)
+#define RGUI_CTL TD(TD_RGUI_RCTL)
+
 #define LINEUP LALT(KC_UP)
 #define LINEDOWN LALT(KC_DOWN)
 #define TERMINAL LCTL(KC_GRV)
 #define CMDPALET LCTL(LSFT(KC_P))
 
-// stuff from Luca's keymap
+#define MAC_PSCR LGUI(LSFT(KC_4))
 
+#if ENABLE_LUCA
 // tap shortcuts
 #define ESC_CTL LCTL_T(KC_ESC)
 
 // screenshots and such, for both MacOS and not-MacOS
-#define MAC_PSCW LGUI(LSFT(KC_3))       // MacOS: capture screen
-#define MAC_PSCR LGUI(LSFT(KC_4))       // MacOS: capture region
+#define LMACPSCW LGUI(LSFT(KC_3))       // MacOS: capture screen
+#define LMACPSCR LGUI(LSFT(KC_4))       // MacOS: capture region
 // may need to configure Alt + 1/2 in ShareX or your dotfiles
-#define ETC_PSCW LALT(KC_2)             // Other: capture screen
-#define ETC_PSCR LALT(KC_1)             // Other: capture region
+#define LETCPSCW LALT(KC_2)             // Other: capture screen
+#define LETCPSCR LALT(KC_1)             // Other: capture region
 // Windows: Print Screen/Snipping Tool
-#define WIN_PSCR LGUI(LSFT(KC_S))       // Windows: capture region
+#define LWINPSCR LGUI(LSFT(KC_S))       // Windows: capture region
+#endif
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -188,6 +201,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      KC_LSFT ,KC_Z    ,KC_X    ,KC_C    ,KC_D    ,KC_V    ,LCTL_GUI,KC_LALT ,        KC_RALT ,RCTL_GUI,KC_K    ,KC_H    ,KC_COMM ,KC_DOT  ,KC_UP   ,COMPOSE ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
      KC_LCTL ,KC_LGUI ,KC_LALT ,FUNCS   ,     SYM     ,    KC_SPC  ,KC_BSPC ,        KC_RSFT ,KC_ENT  ,    SYM     ,     FUNCS   ,KC_LEFT ,KC_DOWN ,KC_RGHT
+  //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
+  ),
+
+  [_MACOS] = LAYOUT(
+  //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
+     _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,                                            _______ ,_______ ,_______ ,_______ ,_______ ,MAC_PSCR,
+  //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
+     _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,                          _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
+  //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
+     _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,                          _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
+  //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
+     _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,LGUI_CTL,_______ ,        _______ ,RGUI_CTL,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
+  //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
+     _______ ,KC_LALT ,KC_LGUI ,_______ ,     _______ ,    _______ ,_______ ,        _______ ,_______ ,    _______ ,     _______ ,_______ ,_______ ,_______
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
 
@@ -253,7 +280,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      XXXXXXX ,QK_BOOT ,RGB_TOG ,RGB_VAD ,RGB_VAI ,XXXXXXX ,_______ ,                          XXXXXXX ,DM_RSTP ,DM_REC1 ,DM_REC2 ,XXXXXXX ,QK_BOOT ,L_QWERTY,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,                          XXXXXXX ,XXXXXXX ,DM_PLY1 ,DM_PLY2 ,XXXXXXX ,XXXXXXX ,XXXXXXX ,
+     XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,                          XXXXXXX ,XXXXXXX ,DM_PLY1 ,DM_PLY2 ,XXXXXXX ,XXXXXXX ,MACOS   ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,XXXXXXX ,        XXXXXXX ,XXXXXXX ,XXXXXXX ,WAIT250 ,WAIT500 ,WAIT1000,XXXXXXX ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
@@ -292,11 +319,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_LUCA_MEDIA] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
-     KC_SLEP ,ETC_PSCR,ETC_PSCW,MAC_PSCW,MAC_PSCR,_______ ,                                            KC_F7   ,KC_F8   ,KC_F9   ,KC_F10  ,KC_F11  ,KC_F12  ,
+     KC_SLEP ,LETCPSCR,LETCPSCW,LMACPSCW,LMACPSCR,_______ ,                                            KC_F7   ,KC_F8   ,KC_F9   ,KC_F10  ,KC_F11  ,KC_F12  ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      _______ ,_______ ,_______ ,KC_WREF ,_______ ,_______ ,_______ ,                          _______ ,_______ ,KC_MRWD ,KC_MFFD ,_______ ,_______ ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,_______ ,WIN_PSCR,KC_VOLD ,KC_VOLU ,KC_MPLY ,_______ ,                          _______ ,KC_MPLY ,KC_MPRV ,KC_MNXT ,_______ ,_______ ,_______ ,
+     _______ ,_______ ,LWINPSCR,KC_VOLD ,KC_VOLU ,KC_MPLY ,_______ ,                          _______ ,KC_MPLY ,KC_MPRV ,KC_MNXT ,_______ ,_______ ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      _______ ,_______ ,_______ ,_______ ,KC_MUTE ,_______ ,_______ ,_______ ,        _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
@@ -316,6 +343,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // *******  *******
 const rgblight_segment_t PROGMEM rgb_COLEMAK[] = RGBLIGHT_LAYER_SEGMENTS(
     {0, 14, HSV_BASE_BLUE} // start at led 0, set 14 leds to main keyboard colour
+);
+
+// *******  *******
+const rgblight_segment_t PROGMEM rgb_MACOS[] = RGBLIGHT_LAYER_SEGMENTS(
+    {0, 14, HSV_WHITE}
 );
 
 // *******  *******
@@ -379,6 +411,7 @@ const rgblight_segment_t PROGMEM rgb_recording[] = RGBLIGHT_LAYER_SEGMENTS(
 const rgblight_segment_t* const PROGMEM rgb_layers[] = RGBLIGHT_LAYERS_LIST( // layers overlap, later take precedence, max 12 layers (change in rules.mk)
     // layers
     rgb_COLEMAK,
+    rgb_MACOS,
     rgb_QWERTY,
     rgb_SYMBOL,
     rgb_FUNCS,
