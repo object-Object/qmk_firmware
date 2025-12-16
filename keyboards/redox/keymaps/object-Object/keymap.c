@@ -37,6 +37,7 @@ enum custom_keycodes {
     ARROW,
     FATARROW,
     RERUN,
+    CMDPALET,
     WAIT250,
     WAIT500,
     WAIT1000,
@@ -64,55 +65,64 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 SEND_STRING("+=");
             }
-            break;
+            return false;
 
         case MINS_EQL:
             if (record->event.pressed) {
                 SEND_STRING("-=");
             }
-            break;
+            return false;
 
         case ARROW:
             if (record->event.pressed) {
                 SEND_STRING("->");
             }
-            break;
+            return false;
 
         case FATARROW:
             if (record->event.pressed) {
                 SEND_STRING("=>");
             }
-            break;
+            return false;
 
         case RERUN:
             if (record->event.pressed) {
                 SEND_STRING(SS_TAP(X_UP) SS_DELAY(100) SS_TAP(X_ENTER));
             }
-            break;
+            return false;
+
+        case CMDPALET:
+            if (IS_LAYER_ON(_MACOS)) {
+                SEND_STRING(SS_LGUI(SS_LSFT("p")));
+            } else {
+                SEND_STRING(SS_LCTL(SS_LSFT("p")));
+            }
+            return false;
 
         case WAIT250:
             if (record->event.pressed) {
                 _delay_ms(250);
             }
-            break;
+            return false;
 
         case WAIT500:
             if (record->event.pressed) {
                 _delay_ms(500);
             }
-            break;
+            return false;
 
         case WAIT1000:
             if (record->event.pressed) {
                 _delay_ms(1000);
             }
-            break;
+            return false;
 
         // case SH_OS:
         // case SH_TOGG:
         //     rgblight_set_layer_state(9, is_swap_hands_on());
-        //     break;
+        //     return false;
     }
+
     return true;
 }
 
@@ -170,9 +180,11 @@ void dynamic_macro_record_end_user(int8_t direction) {
 #define LINEUP LALT(KC_UP)
 #define LINEDOWN LALT(KC_DOWN)
 #define TERMINAL LCTL(KC_GRV)
-#define CMDPALET LCTL(LSFT(KC_P))
 
 #define MAC_PSCR LGUI(LSFT(KC_4))
+
+#define MAC_HOME LGUI(KC_LEFT)
+#define MAC_END LGUI(KC_RGHT)
 
 #if ENABLE_LUCA
 // tap shortcuts
@@ -212,9 +224,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,                          _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,LGUI_CTL,_______ ,        _______ ,RGUI_CTL,_______ ,_______ ,_______ ,_______ ,_______ ,_______ ,
+     _______ ,_______ ,_______ ,_______ ,_______ ,_______ ,LGUI_CTL,_______ ,        _______ ,RGUI_CTL,_______ ,_______ ,_______ ,_______ ,_______ ,KC_RCTL ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
-     _______ ,KC_LALT ,KC_LGUI ,_______ ,     _______ ,    _______ ,_______ ,        _______ ,_______ ,    _______ ,     _______ ,_______ ,_______ ,_______
+     LGUI_CTL,KC_LALT ,KC_LGUI ,_______ ,     _______ ,    _______ ,_______ ,        _______ ,_______ ,    _______ ,     _______ ,_______ ,_______ ,_______
   //└────────┴────────┴────────┴────────┘    └────────┘   └────────┴────────┘       └────────┴────────┘   └────────┘    └────────┴────────┴────────┴────────┘
   ),
 
@@ -264,9 +276,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                                           ┌────────┬────────┬────────┬────────┬────────┬────────┐
      KC_CAPS ,KC_6    ,KC_7    ,KC_8    ,KC_9    ,KC_0    ,                                            KC_1    ,KC_2    ,KC_3    ,KC_4    ,KC_5    ,KC_NUM  ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐                         ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     XXXXXXX ,KC_PGUP ,LINEUP  ,KC_UP   ,LINEDOWN,KC_HOME ,XXXXXXX ,                          _______ ,KC_PSLS ,KC_P7   ,KC_P8   ,KC_P9   ,KC_PMNS ,XXXXXXX ,
+     XXXXXXX ,KC_PGUP ,LINEUP  ,KC_UP   ,LINEDOWN,KC_HOME ,MAC_HOME,                          _______ ,KC_PSLS ,KC_P7   ,KC_P8   ,KC_P9   ,KC_PMNS ,XXXXXXX ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┤                         ├────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     _______ ,KC_PGDN ,KC_LEFT ,KC_DOWN ,KC_RGHT ,KC_END  ,XXXXXXX ,                          XXXXXXX ,KC_PAST ,KC_P4   ,KC_P5   ,KC_P6   ,KC_PPLS ,_______ ,
+     _______ ,KC_PGDN ,KC_LEFT ,KC_DOWN ,KC_RGHT ,KC_END  ,MAC_END ,                          XXXXXXX ,KC_PAST ,KC_P4   ,KC_P5   ,KC_P6   ,KC_PPLS ,_______ ,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┐       ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      _______ ,XXXXXXX ,XXXXXXX ,TERMINAL,CMDPALET,XXXXXXX ,_______ ,_______ ,        _______ ,_______ ,KC_COMM ,KC_P1   ,KC_P2   ,KC_P3   ,KC_PENT ,_______ ,
   //├────────┼────────┼────────┼────────┼────┬───┴────┬───┼────────┼────────┤       ├────────┼────────┼───┬────┴───┬────┼────────┼────────┼────────┼────────┤
@@ -432,6 +444,21 @@ void keyboard_post_init_user(void) {
     // Enable the LED layers
     rgblight_layers = rgb_layers;
     rgblight_set_layer_state(_COLEMAK, true);
+}
+
+bool process_detected_host_os_user(os_variant_t detected_os) {
+    switch (detected_os) {
+        case OS_MACOS:
+        case OS_IOS:
+            // if we're on MacOS, enable _MACOS by default
+            layer_on(_MACOS);
+            break;
+
+        default:
+            break;
+    }
+
+    return true;
 }
 
 bool is_apple_host_os(void) {
