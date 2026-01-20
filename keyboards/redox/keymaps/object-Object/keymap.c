@@ -479,9 +479,11 @@ bool process_detected_host_os_user(os_variant_t detected_os) {
         case OS_IOS:
             // if we're on MacOS, enable _MACOS by default
             layer_on(_MACOS);
+            rgblight_set_layer_state(_NUM_LOCK, false);
             break;
 
         default:
+            layer_off(_MACOS);
             break;
     }
 
